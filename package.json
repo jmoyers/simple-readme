@@ -1,0 +1,15 @@
+{
+  "name": "dox2md",
+  "version": "0.0.0",
+  "description": "dox json to md",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "*"
+  }
+  "repository": "",
+  "author": "jmoyers@gmail.com",
+  "license": "MIT"
+}
