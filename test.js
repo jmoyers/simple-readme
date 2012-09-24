@@ -56,7 +56,7 @@ Parser.prototype.readFile = function(file) {
 * Conforming to the stream api, mostly so you can parse together data transform streams. This stream
 * expects lines in string format.
 *
-* @param {String} line a single line of formatted sococo log text
+* @param {String} line one line of a sococo log
 * @api private
 */
 Parser.prototype.write = function(line) {
@@ -104,15 +104,15 @@ Parser.prototype.write = function(line) {
 * We have a header on log messages that conforms roughly to a {{name:value;name:value}} format. This
 * method parses that data off raw log message and returns a javascript object.
 *
-* @param {String} logMessage one line of a sococo log
+* @param {String} line one line of a sococo log
 * @api private
 */
-Parser.prototype.parseTransportData = function(logMessage) {
-  if (!~logMessage.indexOf('{{')) {
+Parser.prototype.parseTransportData = function(line) {
+  if (!~line.indexOf('{{')) {
     return false;
   }
 
-  var data = logMessage.split('}}')[0].split('{{')[1];
+  var data = line.split('}}')[0].split('{{')[1];
 
   data = data.split(';');
 
