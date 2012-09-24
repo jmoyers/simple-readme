@@ -2,6 +2,7 @@
 
 #simple-doc: use dox to create a simple readme.md
 
+
 ##test/function-proto.js
 
 * [Parser](#test/function-proto.js/Parser) - A class for parsing sococo log files and emitting structured data
@@ -9,10 +10,12 @@
     * [write(line)](#test/function-proto.js/Parser/write) - Write log file lines to be parsed
     * [parseTransportData(line)](#test/function-proto.js/Parser/parseTransportData) - Parse sococo transport data out of a log line
 * [ATestFunction2](#ATestFunction2)
+
 ##test/functions.js
 
 * [functions.js](#functions.js)
 * [ATestFunction2](#ATestFunction2)
+
 ##test/proto.js
 
 * [Parser](#test/proto.js/Parser) - A class for parsing sococo log files and emitting structured data
