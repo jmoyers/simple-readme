@@ -22,7 +22,7 @@ function getParams(input) {
 };
 
 function generateParamsString(params){
-  if (!params) return '()';
+  if (!params || params.length == 0) return '()';
   return _.reduce(params, function(memo, tag) {
        return memo + tag.types.join('|') + ' ' + tag.name + ', ';
     }, '(')
@@ -30,11 +30,11 @@ function generateParamsString(params){
 };
 
 function generateParamsTable(params){
-  if (!params) return '';
+  if (!params || params.length == 0) return '';
   return _.reduce(params, function(memo, tag) {
       return memo + '<tr><td>' + tag.types.join('|') + '</td><td>' + tag.name +
         '</td><td>'+tag.description+'</td></tr>';
-    }, '<table>') + '</table>';
+    }, 'Params\n\n<table>') + '</table>';
 };
 
 function linkify(link, display){
@@ -111,7 +111,7 @@ process.stdin.on('end', function(){
     output += '* '+ linkify(proto.name) + '\n';
     output += proto.methods.map(function(method) {
       return '    * ' + 
-        linkify(proto.name + '-' + method.name, method.name +  
+        linkify(proto.name + '-' + method.name, method.name + 
         generateParamsString(method.params)) + ' - ' + method.summary;
     }).join('\n');
   });
@@ -130,7 +130,7 @@ process.stdin.on('end', function(){
 
     output += proto.methods.map(function(method) {
       return '<a name="' + proto.name + '-' + method.name+'">\n' +
-        '###' + linkify(proto.name) + '#' + method.name + 
+        '###' + linkify(proto.name) + '#' + method.name + '\n\n' + 
         generateParamsTable(method.params) + '\n\n' +
         method.full;
     }).join('\n\n');
