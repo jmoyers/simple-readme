@@ -28,12 +28,12 @@ convert into buffered lines for you.
     });
     p.readFile('test-log.txt');
 
-Params
 
-<table></table>
 
 <a name="Parser-readFile">
-###[Parser](#Parser)#readFileParams
+###[Parser](#Parser)#readFile
+
+Params
 
 <table><tr><td>String</td><td>file</td><td>name of file to be read in</td></tr></table>
 
@@ -45,7 +45,9 @@ Because parsing is synchronous, you can depend on parsing being complete.
 
 
 <a name="Parser-write">
-###[Parser](#Parser)#writeParams
+###[Parser](#Parser)#write
+
+Params
 
 <table><tr><td>String</td><td>line</td><td>a single line of formatted sococo log text</td></tr></table>
 
@@ -56,7 +58,9 @@ expects lines in string format.
 
 
 <a name="Parser-parseTransportData">
-###[Parser](#Parser)#parseTransportDataParams
+###[Parser](#Parser)#parseTransportData
+
+Params
 
 <table><tr><td>String</td><td>logMessage</td><td>one line of a sococo log</td></tr></table>
 
