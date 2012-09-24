@@ -32,7 +32,7 @@ function generateParamsString(params){
 function generateParamsTable(params){
   if (!params || params.length == 0) return '';
   return _.reduce(params, function(memo, tag) {
-      return memo + '<tr><td>' + tag.types.join('|') + '</td><td>' + tag.name +
+      return memo + '<tr><td>' + tag.name + '</td><td>' + tag.types.join('|') +
         '</td><td>'+tag.description+'</td></tr>';
     }, 'Params\n\n<table>') + '</table>';
 };

@@ -35,7 +35,7 @@ convert into buffered lines for you.
 
 Params
 
-<table><tr><td>String</td><td>file</td><td>name of file to be read in</td></tr></table>
+<table><tr><td>file</td><td>String</td><td>name of file to be read in</td></tr></table>
 
 Helper method for reading a file into the log parser directly. 
 
@@ -49,7 +49,7 @@ Because parsing is synchronous, you can depend on parsing being complete.
 
 Params
 
-<table><tr><td>String</td><td>line</td><td>a single line of formatted sococo log text</td></tr></table>
+<table><tr><td>line</td><td>String</td><td>a single line of formatted sococo log text</td></tr></table>
 
 Write log file lines to be parsed
 
@@ -62,7 +62,7 @@ expects lines in string format.
 
 Params
 
-<table><tr><td>String</td><td>logMessage</td><td>one line of a sococo log</td></tr></table>
+<table><tr><td>logMessage</td><td>String</td><td>one line of a sococo log</td></tr></table>
 
 Parse sococo transport data out of a log line
 
