@@ -11,7 +11,7 @@
     "dox": "*",
     "lodash": "*",
     "github-flavored-markdown": "*"
-  }
+  },
   "repository": "",
   "author": "jmoyers@gmail.com",
   "license": "MIT"

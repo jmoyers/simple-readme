@@ -7,13 +7,23 @@ var fs = require('fs'),
 
 program
   .option('-t, --title [title]', 'Title for your markdown document', 'Docs')
+  .option('-n, --nolink', 'Don\'t link back to the top of the document', false)
   .parse(process.argv)
+
+console.log(program.l);
 
 function generateParamsString(params){
   return _.reduce(params, function(memo, tag) {
        return memo + tag.types.join('|') + ' ' + tag.name + ', ';
     }, '(')
     .slice(0, -2) + ')';
+};
+
+function generateParamsTable(params){
+  return _.reduce(params, function(memo, tag) {
+      return memo + '<tr><td>' + tag.types.join('|') + '</td><td>' + tag.name +
+        '</td><td>'+tag.description+'</td></tr>';
+    }, '<table>') + '</table>';
 };
 
 function linkify(link, display){
@@ -63,7 +73,7 @@ process.stdin.on('end', function(){
     }
   });
 
-  var output = '#' + program.title + '\n\n';
+  var output = '<a name="top" />\n\n#' + program.title + '\n\n';
 
   protos.forEach(function(proto) {
     output += '* '+ linkify(proto.name) + '\n';
@@ -78,11 +88,16 @@ process.stdin.on('end', function(){
 
   protos.forEach(function(proto) {
     output += '<a name="'+proto.name+'" />\n';
-    output += '##'+ proto.name + '\n\n';
+    
+    output += '##'+ proto.name +
+      (program.n ? '' : ' &bull; ' + linkify('top') + '\n\n') +
+      '\n\n';
+
     output += proto.methods.map(function(method) {
       return '<a name="' + proto.name + '-' + method.name+'">\n' +
-        '###' + proto.name + '#' + method.name +  
-        generateParamsString(method.params) + '\n\n' + method.full;
+        '###' + linkify(proto.name) + '#' + method.name + 
+        generateParamsTable(method.params) + '\n\n' +
+        method.full;
     }).join('\n\n');
   })
 
