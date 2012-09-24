@@ -10,8 +10,6 @@ var fs = require('fs'),
 * using the `.pipe()` method. This class expects data to be in line format rather than chunks of
 * data coming directly from the file. You can use readFile to pass in a file directly, and it will
 * convert into buffered lines for you.
-*
-* Example:
 *     
 *     var p = new Parser();
 *     p.on('data', function(data){
