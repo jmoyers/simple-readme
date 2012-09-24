@@ -3,15 +3,15 @@
   "version": "0.0.1",
   "description": "use dox to create a simple readme.md",
   "dependencies": {
-    "commander": "*",
-    "dox": "*",
-    "lodash": "*",
-    "github-flavored-markdown": "*"
+    "commander": "1.0.4",
+    "dox": "0.3.1",
+    "lodash": "0.7.0",
+    "github-flavored-markdown": "1.0.1"
   },
   "bin": {
     "simple-doc": "bin/simple-doc"
   },
-  "repository": "",
+  "repository": "git@github.com:jmoyers/simple-doc.git",
   "author": "jmoyers@gmail.com",
   "license": "MIT"
 }
