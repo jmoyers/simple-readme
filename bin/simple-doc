@@ -25,6 +25,11 @@ function generateOutput(files) {
   output += '<a name="top" />' + '\n\n' + 
     '#' + json.name + ': ' + json.description + '\n\n';
 
+  files = _.filter(files, function(file) {
+    return file.contents.protos.length != 0 ||
+      file.contents.functions.length != 0;
+  });
+
   // Generate a table of contents
   files.forEach(function(file) {
     if (files.length > 1) {
@@ -88,11 +93,22 @@ function generateOutput(files) {
 }
 
 function parseInput(buf, file) {
-  var doxInput = dox.parseComments(buf, {raw: true});
+  try {
+    var doxInput = dox.parseComments(buf, {raw: true});
+  } catch(e) {
+    console.error('Error: Problem with %s', file);
+    program.outputHelp();
+    process.exit();
+  }
+
+  doxInput = _.filter(doxInput, function(input) {
+    return input.ctx && input.ctx.type !== 'declaration';
+  })
 
   var functions = _.chain(doxInput)
     .filter(function(input) {
-      return input.ctx && input.ctx.receiver === 'module' && 
+      return input.ctx && 
+        input.ctx.receiver === 'module' && 
         input.ctx.type === 'method';
     })
     .map(function(input) {
