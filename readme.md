@@ -31,11 +31,7 @@ convert into buffered lines for you.
 
 
 <a name="Parser-readFile">
-###[Parser](#Parser)#readFile
-
-Params
-
-<table><tr><td>file</td><td>String</td><td>name of file to be read in</td></tr></table>
+###[Parser](#Parser)#readFile(String file)
 
 Helper method for reading a file into the log parser directly. 
 
@@ -45,11 +41,7 @@ Because parsing is synchronous, you can depend on parsing being complete.
 
 
 <a name="Parser-write">
-###[Parser](#Parser)#write
-
-Params
-
-<table><tr><td>line</td><td>String</td><td>a single line of formatted sococo log text</td></tr></table>
+###[Parser](#Parser)#write(String line)
 
 Write log file lines to be parsed
 
@@ -58,11 +50,7 @@ expects lines in string format.
 
 
 <a name="Parser-parseTransportData">
-###[Parser](#Parser)#parseTransportData
-
-Params
-
-<table><tr><td>logMessage</td><td>String</td><td>one line of a sococo log</td></tr></table>
+###[Parser](#Parser)#parseTransportData(String logMessage)
 
 Parse sococo transport data out of a log line
 

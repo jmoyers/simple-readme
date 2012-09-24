@@ -130,8 +130,8 @@ process.stdin.on('end', function(){
 
     output += proto.methods.map(function(method) {
       return '<a name="' + proto.name + '-' + method.name+'">\n' +
-        '###' + linkify(proto.name) + '#' + method.name + '\n\n' + 
-        generateParamsTable(method.params) + '\n\n' +
+        '###' + linkify(proto.name) + '#' + method.name + 
+        generateParamsString(method.params) + '\n\n' +
         method.full;
     }).join('\n\n');
   })
