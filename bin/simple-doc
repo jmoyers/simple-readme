@@ -23,7 +23,8 @@ function generateOutput(files) {
   var output = '';
 
   output += '<a name="top" />' + '\n\n' + 
-    '#' + json.name + ': ' + json.description + '\n\n';
+    '#' + json.name + '\n\n' +
+    '##' + json.description + '\n\n';
 
   files = _.filter(files, function(file) {
     return file.contents.protos.length != 0 ||

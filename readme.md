@@ -1,6 +1,8 @@
 <a name="top" />
 
-#simple-doc: use dox to create a simple readme.md
+#simple-doc
+
+##use dox to create a simple readme.md
 
 
 ###test/function-proto.js
