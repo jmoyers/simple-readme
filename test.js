@@ -13,14 +13,14 @@ var fs = require('fs'),
 *
 * Examples:
 *     
-*     var p = new Parser();
-*     p.on('data', function(data){
-*         console.log(data);
-*     });
-*     p.on('end', function(){
-*         console.log('parsing complete');
-*     });
-*     p.readFile('test-log.txt');
+*   var p = new Parser();
+*   p.on('data', function(data){
+*       console.log(data);
+*   });
+*   p.on('end', function(){
+*       console.log('parsing complete');
+*   })
+*   p.readFile('test-log.txt');
 *
 * @param {String} name description
 * @api public

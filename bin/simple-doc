@@ -10,11 +10,19 @@ var fs = require('fs'),
   fs = require('fs');
 
 program
-  .option('-t, --title [title]', 'Title for your markdown document', 'Docs')
-  .option('-n, --nolink', 'Don\'t link back to the top of the document', false)
+  .option('-t, --title [title: Docs]', 'Title for your markdown document', 'Docs')
+  .option('-n, --nolink [false]', 'Don\'t link back to the top of the document', false)
+  .option('-m, --html [false]', 'Output html instead of markdown', false)
   .parse(process.argv)
 
+function getParams(input) {
+  return _.filter(input.tags, function(tag) {
+    return tag.type === 'param';
+  });
+};
+
 function generateParamsString(params){
+  if (!params) return '()';
   return _.reduce(params, function(memo, tag) {
        return memo + tag.types.join('|') + ' ' + tag.name + ', ';
     }, '(')
@@ -22,6 +30,7 @@ function generateParamsString(params){
 };
 
 function generateParamsTable(params){
+  if (!params) return '';
   return _.reduce(params, function(memo, tag) {
       return memo + '<tr><td>' + tag.types.join('|') + '</td><td>' + tag.name +
         '</td><td>'+tag.description+'</td></tr>';
@@ -41,29 +50,37 @@ process.stdin.on('data', function(chunk){ buf += chunk; });
 process.stdin.on('end', function(){
   var doxInput = dox.parseComments(buf, {raw: true});
 
-  doxInput = _.chain(doxInput)
+  var functions = _.chain(doxInput)
+    .filter(function(input) {
+      return input.ctx.type === 'function';
+    })
+    .map(function(input) {
+      return {
+        name: input.ctx.name,
+        params: getParams(input),
+        summary: input.description.summary,
+        full: input.description.full
+      };
+    })
+    .value();
+
+  var protos = _.chain(doxInput)
     .filter(function(input) {
       // Filter out module exports for initial proto definitions
-      return input.ctx.receiver !== 'module';
+      return input.ctx.receiver !== 'module' && input.ctx.type !== 'function';
     })
     .groupBy(function(o) {
       return o.ctx.constructor;
     })
     .value();
-  
-  var protos = Object.keys(doxInput).map(function(constructor) {
+
+  protos = Object.keys(protos).map(function(constructor) {
 
     // Generate a nice method definition including a formatted param string
-    var methods = doxInput[constructor].map(function(property){
-      var methodString = property.ctx.name;
-
-      var params = _.filter(property.tags, function(tag) {
-        return tag.type === 'param';
-      });
-
+    var methods = protos[constructor].map(function(property){
       return {
-        name: methodString,
-        params: params,
+        name: property.ctx.name,
+        params: getParams(property),
         summary: property.description.summary,
         full: property.description.full
       }  
@@ -75,8 +92,21 @@ process.stdin.on('end', function(){
     }
   });
 
+  // Find the functions which are actually constructors
+  protos = _.map(protos, function(proto) {
+    functions = _.filter(functions, function(fun) {
+      if (fun.name == proto.name) {
+        proto.constructor = fun;
+        return false;
+      }
+    });
+    return proto;
+  });
+
+  // Generate an anchor at the top of the document
   var output = '<a name="top" />\n\n#' + program.title + '\n\n';
 
+  // Generate a list of prototypes and methods attached to those prototypes
   protos.forEach(function(proto) {
     output += '* '+ linkify(proto.name) + '\n';
     output += proto.methods.map(function(method) {
@@ -88,12 +118,15 @@ process.stdin.on('end', function(){
 
   output += '\n\n';
 
+  // Generate a section for each prototype
   protos.forEach(function(proto) {
     output += '<a name="'+proto.name+'" />\n';
     
-    output += '##'+ proto.name +
+    output += '##'+ proto.name + 
       (program.n ? '' : ' &bull; ' + linkify('top') + '\n\n') +
-      '\n\n';
+      '\n\n' + 
+      proto.constructor.full + '\n\n' + 
+      generateParamsTable(proto.constructor.params) + '\n\n';
 
     output += proto.methods.map(function(method) {
       return '<a name="' + proto.name + '-' + method.name+'">\n' +
@@ -103,5 +136,10 @@ process.stdin.on('end', function(){
     }).join('\n\n');
   })
 
-  process.stdout.write(md(output));
+  if (program.html) {
+    process.stdout.write(md(output));  
+  } else {
+    process.stdout.write(output);
+  };
+  
 }).resume();
