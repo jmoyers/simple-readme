@@ -12,26 +12,25 @@
 
 
 
-Parser: a class for parsing sococo log files and emitting structured data
+A class for parsing sococo log files and emitting structured data
 
 This conforms to the node Stream base class, and can be chained together with other stream filters
 using the `.pipe()` method. This class expects data to be in line format rather than chunks of
 data coming directly from the file. You can use readFile to pass in a file directly, and it will
 convert into buffered lines for you.
 
-## Examples
+## Example
     
-  var p = new Parser();
-  p.on('data', function(data){
-      console.log(data);
-  });
-  p.on('end', function(){
-      console.log('parsing complete');
-  })
-  p.readFile('test-log.txt');
+    var p = new Parser();
+    p.on('data', function(data){
+        console.log(data);
+    });
+    p.on('end', function(){
+        console.log('parsing complete');
+    });
+    p.readFile('test-log.txt');
 
-
-<table><tr><td>String</td><td>name</td><td>description</td></tr></table>
+<table></table>
 
 <a name="Parser-readFile">
 ###[Parser](#Parser)#readFile<table><tr><td>String</td><td>file</td><td>name of file to be read in</td></tr></table>
