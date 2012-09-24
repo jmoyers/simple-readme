@@ -5,7 +5,7 @@
 * [Parser](#Parser)
     * [readFile(String file)](#Parser-readFile) - Helper method for reading a file into the log parser directly. 
     * [write(String line)](#Parser-write) - Write log file lines to be parsed
-    * [parseTransportData(String logMessage)](#Parser-parseTransportData) - Parse sococo transport data out of a log line
+    * [parseTransportData(String line)](#Parser-parseTransportData) - Parse sococo transport data out of a log line
 
 <a name="Parser" />
 ##Parser &bull; [top](#top)
@@ -50,7 +50,7 @@ expects lines in string format.
 
 
 <a name="Parser-parseTransportData">
-###[Parser](#Parser)#parseTransportData(String logMessage)
+###[Parser](#Parser)#parseTransportData(String line)
 
 Parse sococo transport data out of a log line
 
