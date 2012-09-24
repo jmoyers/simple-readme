@@ -1,6 +1,6 @@
 {
   "name": "simple-doc",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "use dox to create a simple readme.md",
   "dependencies": {
     "commander": "*",
