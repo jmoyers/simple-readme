@@ -19,6 +19,6 @@
     "github"
   ],
   "repository": "git@github.com:jmoyers/simple-doc.git",
-  "author": "jmoyers@gmail.com",
+  "author": "Joshua Moyers <jmoyers@gmail.com>",
   "license": "MIT"
 }
