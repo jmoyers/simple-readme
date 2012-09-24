@@ -1,61 +1,38 @@
+<p><a name="top" /></p>
+
+<h1>simple-doc: use dox to create a simple readme.md</h1>
+
+<h2>test/function-proto.js</h2>
+
 <ul>
-<li><a href="#Parser2">Parser2</a> (test2.js)
-<ul><li><a href="#Parser2-readFile">readFile(String file)</a> - Helper method for reading a file into the log Parser2 directly. </li>
-<li><a href="#Parser2-write">write(String line)</a> - Write log file lines to be parsed</li>
-<li><a href="#Parser2-parseTransportData">parseTransportData(String line)</a> - Parse sococo transport data out of a log line</li></ul></li>
-<li><a href="#Parser">Parser</a> (test.js)
-<ul><li><a href="#Parser-readFile">readFile(String file)</a> - Helper method for reading a file into the log parser directly. </li>
-<li><a href="#Parser-write">write(String line)</a> - Write log file lines to be parsed</li>
-<li><a href="#Parser-parseTransportData">parseTransportData(String line)</a> - Parse sococo transport data out of a log line</li></ul></li>
+<li><a href="#test/function-proto.js/Parser">Parser</a> - A class for parsing sococo log files and emitting structured data
+<ul><li><a href="#test/function-proto.js/Parser/readFile">readFile(file)</a> - Helper method for reading a file into the log parser directly. </li>
+<li><a href="#test/function-proto.js/Parser/write">write(line)</a> - Write log file lines to be parsed</li>
+<li><a href="#test/function-proto.js/Parser/parseTransportData">parseTransportData(line)</a> - Parse sococo transport data out of a log line</li></ul></li>
+<li><a href="#ATestFunction2">ATestFunction2</a></li>
 </ul>
 
-<p><a name="Parser2" /></p>
+<h2>test/functions.js</h2>
 
-<h2>Parser2 &bull; <a href="#top">top</a></h2>
+<ul>
+<li><a href="#functions.js">functions.js</a></li>
+<li><a href="#ATestFunction2">ATestFunction2</a></li>
+</ul>
 
-<p>Location: test2.js</p>
+<h2>test/proto.js</h2>
 
-<p>A class for parsing sococo log files and emitting structured data</p>
+<ul>
+<li><a href="#test/proto.js/Parser">Parser</a> - A class for parsing sococo log files and emitting structured data
+<ul><li><a href="#test/proto.js/Parser/readFile">readFile(file)</a> - Helper method for reading a file into the log parser directly. </li>
+<li><a href="#test/proto.js/Parser/write">write(line)</a> - Write log file lines to be parsed</li>
+<li><a href="#test/proto.js/Parser/parseTransportData">parseTransportData(line)</a> - Parse sococo transport data out of a log line</li></ul></li>
+</ul>
 
-<p>This conforms to the node Stream base class, and can be chained together with other stream filters<br />using the <code>.pipe()</code> method. This class expects data to be in line format rather than chunks of<br />data coming directly from the file. You can use readFile to pass in a file directly, and it will<br />convert into buffered lines for you.</p>
-
-<pre><code>var p = new Parser22();
-p.on('data', function(data){
-    console.log(data);
-});
-p.on('end', function(){
-    console.log('parsing complete');
-});
-p.readFile('test-log.txt');
-</code></pre>
-
-<p><a name="Parser2-readFile"></p>
-
-<h3><a href="#Parser2">Parser2</a>#readFile(String file)</h3>
-
-<p>Helper method for reading a file into the log Parser2 directly. </p>
-
-<p>Assumes first line of the file is going to be a header, so skips it for parsing. Buffers input <br />until newline, then feeds each line into the Parser2. When its finished, it emits an end event. <br />Because parsing is synchronous, you can depend on parsing being complete.</p>
-
-<p><a name="Parser2-write"></p>
-
-<h3><a href="#Parser2">Parser2</a>#write(String line)</h3>
-
-<p>Write log file lines to be parsed</p>
-
-<p>Conforming to the stream api, mostly so you can parse together data transform streams. This stream<br />expects lines in string format.</p>
-
-<p><a name="Parser2-parseTransportData"></p>
-
-<h3><a href="#Parser2">Parser2</a>#parseTransportData(String line)</h3>
-
-<p>Parse sococo transport data out of a log line</p>
-
-<p>We have a header on log messages that conforms roughly to a {{name:value;name:value}} format. This<br />method parses that data off raw log message and returns a javascript object.<br /><a name="Parser" /></p>
+<p><a name="test/function-proto.js/Parser" /></p>
 
 <h2>Parser &bull; <a href="#top">top</a></h2>
 
-<p>Location: test.js</p>
+<p>Location: test/function-proto.js</p>
 
 <p>A class for parsing sococo log files and emitting structured data</p>
 
@@ -71,26 +48,105 @@ p.on('end', function(){
 p.readFile('test-log.txt');
 </code></pre>
 
-<p><a name="Parser-readFile"></p>
+<p><a name="test/function-proto.js/Parser/readFile"></p>
 
-<h3><a href="#Parser">Parser</a>#readFile(String file)</h3>
+<h3><a href="#test/function-proto.js/Parser">Parser</a>#readFile(file)</h3>
 
 <p>Helper method for reading a file into the log parser directly. </p>
 
 <p>Assumes first line of the file is going to be a header, so skips it for parsing. Buffers input <br />until newline, then feeds each line into the parser. When its finished, it emits an end event. <br />Because parsing is synchronous, you can depend on parsing being complete.</p>
 
-<p><a name="Parser-write"></p>
+<p><a name="test/function-proto.js/Parser/write"></p>
 
-<h3><a href="#Parser">Parser</a>#write(String line)</h3>
+<h3><a href="#test/function-proto.js/Parser">Parser</a>#write(line)</h3>
 
 <p>Write log file lines to be parsed</p>
 
 <p>Conforming to the stream api, mostly so you can parse together data transform streams. This stream<br />expects lines in string format.</p>
 
-<p><a name="Parser-parseTransportData"></p>
+<p><a name="test/function-proto.js/Parser/parseTransportData"></p>
 
-<h3><a href="#Parser">Parser</a>#parseTransportData(String line)</h3>
+<h3><a href="#test/function-proto.js/Parser">Parser</a>#parseTransportData(line)</h3>
 
 <p>Parse sococo transport data out of a log line</p>
 
-<p>We have a header on log messages that conforms roughly to a {{name:value;name:value}} format. This<br />method parses that data off raw log message and returns a javascript object.</p>
+<p>We have a header on log messages that conforms roughly to a {{name:value;name:value}} format. This<br />method parses that data off raw log message and returns a javascript object.<br /><a name="test/proto.js/Parser" /></p>
+
+<h2>Parser &bull; <a href="#top">top</a></h2>
+
+<p>Location: test/proto.js</p>
+
+<p>A class for parsing sococo log files and emitting structured data</p>
+
+<p>This conforms to the node Stream base class, and can be chained together with other stream filters<br />using the <code>.pipe()</code> method. This class expects data to be in line format rather than chunks of<br />data coming directly from the file. You can use readFile to pass in a file directly, and it will<br />convert into buffered lines for you.</p>
+
+<pre><code>var p = new Parser();
+p.on('data', function(data){
+    console.log(data);
+});
+p.on('end', function(){
+    console.log('parsing complete');
+});
+p.readFile('test-log.txt');
+</code></pre>
+
+<p><a name="test/proto.js/Parser/readFile"></p>
+
+<h3><a href="#test/proto.js/Parser">Parser</a>#readFile(file)</h3>
+
+<p>Helper method for reading a file into the log parser directly. </p>
+
+<p>Assumes first line of the file is going to be a header, so skips it for parsing. Buffers input <br />until newline, then feeds each line into the parser. When its finished, it emits an end event. <br />Because parsing is synchronous, you can depend on parsing being complete.</p>
+
+<p><a name="test/proto.js/Parser/write"></p>
+
+<h3><a href="#test/proto.js/Parser">Parser</a>#write(line)</h3>
+
+<p>Write log file lines to be parsed</p>
+
+<p>Conforming to the stream api, mostly so you can parse together data transform streams. This stream<br />expects lines in string format.</p>
+
+<p><a name="test/proto.js/Parser/parseTransportData"></p>
+
+<h3><a href="#test/proto.js/Parser">Parser</a>#parseTransportData(line)</h3>
+
+<p>Parse sococo transport data out of a log line</p>
+
+<p>We have a header on log messages that conforms roughly to a {{name:value;name:value}} format. This<br />method parses that data off raw log message and returns a javascript object.<br /><a name="ATestFunction2-ATestFunction2"></p>
+
+<h3>ATestFunction2(stuff, things) &bull; <a href="#top">top</a></h3>
+
+<p>Location: test/function-proto.js</p>
+
+<p>A test function summary for a second function</p>
+
+<p>With a full summary</p>
+
+<pre><code>ATestFunction2(stuff, things);
+</code></pre>
+
+<p><a name="functions.js-functions.js"></p>
+
+<h3>functions.js(stuff, things) &bull; <a href="#top">top</a></h3>
+
+<p>Location: test/functions.js</p>
+
+<p>A test function summary</p>
+
+<p>With a full summary</p>
+
+<pre><code>ATestFunction(stuff, things);
+</code></pre>
+
+<p><a name="ATestFunction2-ATestFunction2"></p>
+
+<h3>ATestFunction2(stuff, things) &bull; <a href="#top">top</a></h3>
+
+<p>Location: test/functions.js</p>
+
+<p>A test function summary for a second function</p>
+
+<p>With a full summary</p>
+
+<pre><code>ATestFunction2(stuff, things);
+</code></pre>

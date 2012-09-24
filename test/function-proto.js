@@ -1,3 +1,17 @@
+/**
+* A test function summary for a second function
+* 
+* With a full summary
+*     
+*     ATestFunction2(stuff, things);
+* 
+* @param {String|Buffer} stuff a bag o' stuff
+* @param {Array|String} things an optional bag o' things
+*/
+function ATestFunction2(stuff, things) {
+
+}
+
 var fs = require('fs'),
   util = require('util'),
   lazy = require('lazy'),
@@ -11,7 +25,7 @@ var fs = require('fs'),
 * data coming directly from the file. You can use readFile to pass in a file directly, and it will
 * convert into buffered lines for you.
 *     
-*     var p = new Parser22();
+*     var p = new Parser();
 *     p.on('data', function(data){
 *         console.log(data);
 *     });
@@ -20,23 +34,23 @@ var fs = require('fs'),
 *     });
 *     p.readFile('test-log.txt');
 */
-function Parser2(){
+function Parser(){
   Stream.call(this);
 }
 
-util.inherits(Parser2, Stream);
+util.inherits(Parser, Stream);
 
 /**
-* Helper method for reading a file into the log Parser2 directly. 
+* Helper method for reading a file into the log parser directly. 
 * 
 * Assumes first line of the file is going to be a header, so skips it for parsing. Buffers input 
-* until newline, then feeds each line into the Parser2. When its finished, it emits an end event. 
+* until newline, then feeds each line into the parser. When its finished, it emits an end event. 
 * Because parsing is synchronous, you can depend on parsing being complete.
 *
 * @param {String} file name of file to be read in
 * @api public
 */
-Parser2.prototype.readFile = function(file) {
+Parser.prototype.readFile = function(file) {
   var that = this;
 
   new lazy(fs.createReadStream(file))
@@ -59,7 +73,7 @@ Parser2.prototype.readFile = function(file) {
 * @param {String} line one line of a sococo log
 * @api private
 */
-Parser2.prototype.write = function(line) {
+Parser.prototype.write = function(line) {
   var that = this,
     items = line.split(',');
 
@@ -107,7 +121,7 @@ Parser2.prototype.write = function(line) {
 * @param {String} line one line of a sococo log
 * @api private
 */
-Parser2.prototype.parseTransportData = function(line) {
+Parser.prototype.parseTransportData = function(line) {
   if (!~line.indexOf('{{')) {
     return false;
   }
@@ -145,4 +159,4 @@ Parser2.prototype.parseTransportData = function(line) {
   return transportData;
 }
 
-module.exports = Parser2;
+module.exports = Parser;

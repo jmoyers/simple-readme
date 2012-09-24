@@ -12,56 +12,100 @@ var fs = require('fs'),
 program
   .usage('simple-doc [options] <files>')
   .option('-o, --output [file]', 'Output file. Defaults to stdout', false)
-  .option('-t, --title [title: Docs]', 'Title for document', 'Docs')
-  .option('-n, --nolink [false]', 'Don\'t link back to the top', false)
+  .option('-t, --showtypes', 'Show types in function signatures', false)
+  .option('-j, --json [file]', 'Load details from json file', 'package.json')
   .option('--html [false]', 'Output html instead of markdown', false)
   .parse(process.argv)
 
 function generateOutput(files) {
+  var json = JSON.parse(fs.readFileSync(program.json));
+
   var output = '';
 
+  output += '<a name="top" />' + '\n\n' + 
+    '#' + json.name + ': ' + json.description + '\n\n';
+
+  // Generate a table of contents
   files.forEach(function(file) {
+    if (files.length > 1) {
+      output += '##' + file.name + '\n\n';
+    }
+
     // Generate a list of prototypes and methods attached to those prototypes
     file.contents.protos.forEach(function(proto) {
-      output += '* ' + linkify(proto.name) + ' (' + file.name + ')' + '\n';
+      output += '* ' + linkify(file.name + '/' + proto.name, proto.name) + 
+        ' - ' + proto.constructor.summary + '\n';
       output += proto.methods.map(function(method) {
         return '    * ' + 
-          linkify(proto.name + '-' + method.name, method.name + 
-          generateParamsString(method.params)) + ' - ' + method.summary;
+          linkify(file.name + '/' + proto.name + '/' + method.name, method.name + 
+          generateParamsString(method.params, program.showtypes)) + 
+          ' - ' + method.summary;
       }).join('\n');
-      output += '\n';
+    });
+
+    output += (file.contents.protos.length > 0 ? '\n' : '');
+
+    // Generate a list of documented bare functions
+    file.contents.functions.forEach(function(fun) {
+      output += '* ' + linkify(fun.name) + '\n';
     });
   });
 
   output += '\n\n';
 
+  // Generate the prototype based body of documentation
   files.forEach(function(file) {
     // Generate a section for each prototype
     file.contents.protos.forEach(function(proto) {
-      output += '<a name="'+proto.name+'" />\n';
+      output += '<a name="' + file.name + '/' + proto.name + '" />\n';
       
-      output += '##' + proto.name + 
-        (program.n ? '' : ' &bull; ' + linkify('top') + '\n\n') +
+      output += '##' + proto.name + ' &bull; ' + linkify('top') + '\n\n' +
         'Location: ' + file.name + '\n\n' +
         proto.constructor.full + '\n\n' + 
         generateParamsTable(proto.constructor.params) + '\n\n';
 
       output += proto.methods.map(function(method) {
-        return '<a name="' + proto.name + '-' + method.name+'">\n' +
-          '###' + linkify(proto.name) + '#' + method.name + 
-          generateParamsString(method.params) + '\n\n' +
+        return '<a name="' + file.name + '/' + proto.name + '/' + method.name+'">\n' +
+          '###' + linkify(file.name + '/' + proto.name, proto.name) + '#' + method.name + 
+          generateParamsString(method.params, program.showtypes) + '\n\n' +
           method.full;
       }).join('\n\n');
     });
   });
 
+  // Generate the function based body of documentation
+  files.forEach(function(file) {
+    output += file.contents.functions.map(function(fun) {
+      return '<a name="' + fun.name + '-' + fun.name+'">\n' +
+          '###' + fun.name + 
+          generateParamsString(fun.params, program.showtypes) + ' &bull; ' + 
+          linkify('top') + '\n\n' + 'Location: ' + file.name + '\n\n' +
+          fun.full;
+    }).join('\n\n');
+  });
+
   return output;
 }
 
-function parseInput(buf) {
+function parseInput(buf, file) {
   var doxInput = dox.parseComments(buf, {raw: true});
 
   var functions = _.chain(doxInput)
+    .filter(function(input) {
+      return input.ctx && input.ctx.receiver === 'module' && 
+        input.ctx.type === 'method';
+    })
+    .map(function(input) {
+      return {
+        name: file,
+        params: input.tags,
+        exported: true,
+        summary: input.description.summary,
+        full: input.description.full
+      } 
+    }).value();
+
+  functions = functions.concat(_.chain(doxInput)
     .filter(function(input) {
       return input.ctx && input.ctx.type === 'function';
     })
@@ -73,12 +117,14 @@ function parseInput(buf) {
         full: input.description.full
       };
     })
-    .value();
+    .value());
 
   var protos = _.chain(doxInput)
     .filter(function(input) {
       // Filter out module exports for initial proto definitions
-      return input.ctx && input.ctx.receiver !== 'module' && input.ctx.type !== 'function';
+      return input.ctx && 
+        input.ctx.receiver !== 'module' && 
+        input.ctx.type !== 'function';
     })
     .groupBy(function(o) {
       return o.ctx.constructor;
@@ -110,6 +156,7 @@ function parseInput(buf) {
         proto.constructor = fun;
         return false;
       }
+      return true;
     });
     return proto;
   });
@@ -126,10 +173,12 @@ function getParams(input) {
   });
 };
 
-function generateParamsString(params){
+function generateParamsString(params, showTypes){
   if (!params || params.length == 0) return '()';
   return _.reduce(params, function(memo, tag) {
-       return memo + tag.types.join('|') + ' ' + tag.name + ', ';
+      return memo + 
+        (showTypes ? '{' + tag.types.join('|') + '} ' : '' ) + 
+        tag.name + ', ';
     }, '(')
     .slice(0, -2) + ')';
 };
@@ -191,7 +240,7 @@ normalizedFiles = normalizedFiles.map(function(file) {
 
   return {
     name: name,
-    contents: parseInput(string)
+    contents: parseInput(string, path.basename(name))
   }
 });
 
