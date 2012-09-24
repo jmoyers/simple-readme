@@ -1,3 +1,7 @@
+#!/usr/bin/env node
+
+var path = require('path');
+
 var fs = require('fs'),
   program = require('commander'),
   _ = require('lodash'),
@@ -9,8 +13,6 @@ program
   .option('-t, --title [title]', 'Title for your markdown document', 'Docs')
   .option('-n, --nolink', 'Don\'t link back to the top of the document', false)
   .parse(process.argv)
-
-console.log(program.l);
 
 function generateParamsString(params){
   return _.reduce(params, function(memo, tag) {
@@ -101,8 +103,5 @@ process.stdin.on('end', function(){
     }).join('\n\n');
   })
 
-  console.log(output);
-  console.log();
-  console.log(md(output));
-  fs.writeFile('output.html', md(output));
+  process.stdout.write(md(output));
 }).resume();

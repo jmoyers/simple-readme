@@ -1,16 +1,15 @@
 {
-  "name": "dox2md",
+  "name": "simple-doc",
   "version": "0.0.0",
-  "description": "dox json to md",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "dox json to readme",
   "dependencies": {
     "commander": "*",
     "dox": "*",
     "lodash": "*",
     "github-flavored-markdown": "*"
+  },
+  "bin": {
+    "simple-doc": "bin/simple-doc"
   },
   "repository": "",
   "author": "jmoyers@gmail.com",
