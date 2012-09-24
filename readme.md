@@ -2,7 +2,7 @@
 
 #simple-doc
 
-##a tool for creating simple readme from inline documentation
+##creating a simple readme from inline documentation
 
 
 ###test/function-proto.js

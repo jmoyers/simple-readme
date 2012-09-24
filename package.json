@@ -1,7 +1,7 @@
 {
   "name": "simple-doc",
   "version": "0.0.1",
-  "description": "a tool for creating simple readme from inline documentation",
+  "description": "creating a simple readme from inline documentation",
   "dependencies": {
     "commander": "1.0.4",
     "dox": "0.3.1",
