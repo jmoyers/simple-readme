@@ -28,7 +28,7 @@ function generateOutput(files) {
   // Generate a table of contents
   files.forEach(function(file) {
     if (files.length > 1) {
-      output += '##' + file.name + '\n\n';
+      output += '\n##' + file.name + '\n\n';
     }
 
     // Generate a list of prototypes and methods attached to those prototypes
