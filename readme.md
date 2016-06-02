@@ -1,3 +1,5 @@
+Currently unmaintained.
+
 <a name="top" />
 
 #simple-doc
